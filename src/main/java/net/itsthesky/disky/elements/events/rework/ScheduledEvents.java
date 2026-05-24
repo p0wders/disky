@@ -36,6 +36,7 @@ public class ScheduledEvents {
         // Fired when a new scheduled event is created in a guild.
         EventRegistryFactory.builder(ScheduledEventCreateEvent.class)
                 .name("Scheduled Event Create")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event creat(e|ion)")
                 .description("Fired when a scheduled event is created in a guild. Can be used to get the scheduled event and the guild it was created in.")
                 .example("on scheduled event creation:\n    broadcast \"A new scheduled event '%event-scheduledevent's name%' was created in %event-guild%\"")
@@ -48,6 +49,7 @@ public class ScheduledEvents {
         // Fired when a scheduled event is deleted from a guild.
         EventRegistryFactory.builder(ScheduledEventDeleteEvent.class)
                 .name("Scheduled Event Delete")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event delet(e|ion)")
                 .description("Fired when a scheduled event is deleted from a guild. Can be used to get the scheduled event and the guild it was deleted from.")
                 .example("on scheduled event deletion:\n    broadcast \"Scheduled event '%event-scheduledevent's name%' was deleted from %event-guild%\"")
@@ -60,6 +62,7 @@ public class ScheduledEvents {
         // Fired when a user subscribes (RSVPs) to a scheduled event.
         EventRegistryFactory.builder(ScheduledEventUserAddEvent.class)
                 .name("Scheduled Event User Add")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event user (add|subscribe|join)")
                 .description("Fired when a user subscribes (RSVPs as 'interested') to a scheduled event. The user/member may be null if not cached; use the 'subscriber' rest value to retrieve it from Discord.")
                 .example("on scheduled event user add:\n    broadcast \"%event-user% is now interested in %event-scheduledevent's name%\"")
@@ -76,6 +79,7 @@ public class ScheduledEvents {
         // Fired when a user unsubscribes from a scheduled event.
         EventRegistryFactory.builder(ScheduledEventUserRemoveEvent.class)
                 .name("Scheduled Event User Remove")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event user (remove|unsubscribe|leave)")
                 .description("Fired when a user unsubscribes from a scheduled event. The user/member may be null if not cached; use the 'subscriber' rest value to retrieve it from Discord.")
                 .example("on scheduled event user remove:\n    broadcast \"%event-user% is no longer interested in %event-scheduledevent's name%\"")
@@ -92,6 +96,7 @@ public class ScheduledEvents {
         // Fired when the name of a scheduled event is changed.
         EventRegistryFactory.builder(ScheduledEventUpdateNameEvent.class)
                 .name("Scheduled Event Name Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event name (change|update)")
                 .description("Fired when a scheduled event's name is changed.")
                 .example("on scheduled event name change:\n    broadcast \"Scheduled event renamed from '%past scheduled event name%' to '%new scheduled event name%'\"")
@@ -107,6 +112,7 @@ public class ScheduledEvents {
         // Fired when the description of a scheduled event is changed.
         EventRegistryFactory.builder(ScheduledEventUpdateDescriptionEvent.class)
                 .name("Scheduled Event Description Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event description (change|update)")
                 .description("Fired when a scheduled event's description is changed.")
                 .example("on scheduled event description change:\n    broadcast \"Description of %event-scheduledevent's name% changed\"")
@@ -123,6 +129,7 @@ public class ScheduledEvents {
         // this is a free-form string; for channel-bound events it is the channel ID as a string.
         EventRegistryFactory.builder(ScheduledEventUpdateLocationEvent.class)
                 .name("Scheduled Event Location Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event location (change|update)")
                 .description(
                         "Fired when a scheduled event's location is changed.",
@@ -143,6 +150,7 @@ public class ScheduledEvents {
         // Fired when the start time of a scheduled event is changed.
         EventRegistryFactory.builder(ScheduledEventUpdateStartTimeEvent.class)
                 .name("Scheduled Event Start Time Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event start[( |-)]time (change|update)")
                 .description("Fired when a scheduled event's start time is changed.")
                 .example("on scheduled event start time change:\n    broadcast \"%event-scheduledevent's name% will now start at %new scheduled event start time%\"")
@@ -159,6 +167,7 @@ public class ScheduledEvents {
         // Note: the end time may be null (events without a defined end time).
         EventRegistryFactory.builder(ScheduledEventUpdateEndTimeEvent.class)
                 .name("Scheduled Event End Time Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event end[( |-)]time (change|update)")
                 .description("Fired when a scheduled event's end time is changed. The old or new value may be null if the event has no defined end time.")
                 .example("on scheduled event end time change:\n    broadcast \"%event-scheduledevent's name% will now end at %new scheduled event end time%\"")
@@ -175,6 +184,7 @@ public class ScheduledEvents {
         // This is the most useful update event: it tells you when an event actually starts and ends.
         EventRegistryFactory.builder(ScheduledEventUpdateStatusEvent.class)
                 .name("Scheduled Event Status Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event status (change|update)")
                 .description(
                         "Fired when a scheduled event's status changes between: scheduled, active, completed, cancelled.",
@@ -194,6 +204,7 @@ public class ScheduledEvents {
         // Both old and new values are URLs to the image (or null when no image is set).
         EventRegistryFactory.builder(ScheduledEventUpdateCoverImageEvent.class)
                 .name("Scheduled Event Cover Image Update")
+                .since("4.29.0")
                 .patterns("[discord] scheduled[( |-)]event (cover[( |-)])?image (change|update)")
                 .description("Fired when a scheduled event's cover image is changed. The old/new values are image URLs (or null if no image is set).")
                 .example("on scheduled event cover image change:\n    broadcast \"Cover image of %event-scheduledevent's name% changed to %new scheduled event cover image%\"")

@@ -68,6 +68,7 @@ public class EventBuilder<T extends Event> {
     private boolean skriptRegistered = true;
     private final List<String> descriptionLines = new ArrayList<>();
     private final List<String> exampleLines = new ArrayList<>();
+    private String[] since;
 
     final List<EventValueRegistration<T, ?>> valueRegistrations = new ArrayList<>();
     final List<EventSingleExpressionRegistration<T, ?>> singleExpressionRegistrations = new ArrayList<>();
@@ -448,6 +449,18 @@ public class EventBuilder<T extends Event> {
     }
 
     /**
+     * Sets the version(s) since which this event is available (equivalent to Skript's {@code @Since} annotation).
+     * Used purely for documentation. Pass one entry per relevant version (e.g. initial introduction, later changes).
+     *
+     * @param versions The version strings (e.g. {@code "4.30.0"})
+     * @return This builder
+     */
+    public EventBuilder<T> since(String... versions) {
+        this.since = versions;
+        return this;
+    }
+
+    /**
      * Registers the event with DiSky.
      */
     public BuiltEvent<T> register() {
@@ -475,7 +488,8 @@ public class EventBuilder<T extends Event> {
 
         documentation.append(getCategory() == null ? "## " : "### ").append(name).append("\n\n");
 
-        documentation.append("[[[ macros.required_version('").append(DiSky.getVersion()).append("') ]]]\n");
+        final String docVersion = (since != null && since.length > 0) ? since[since.length - 1] : DiSky.getVersion().toString();
+        documentation.append("[[[ macros.required_version('").append(docVersion).append("') ]]]\n");
         documentation.append("[[[ macros.is_cancellable('No') ]]]\n\n");
 
         if (!descriptionLines.isEmpty())
@@ -632,7 +646,7 @@ public class EventBuilder<T extends Event> {
                         .replace(" ", "_")
                         .replace("/", ""),
                 getName(),
-                new String[] {"4.26.0"},
+                (since != null && since.length > 0) ? since : new String[] {"4.26.0"},
                 getDescriptionLines(),
                 getPatterns(),
                 getExampleLines(),
