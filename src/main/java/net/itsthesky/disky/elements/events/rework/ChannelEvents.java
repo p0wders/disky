@@ -3,12 +3,14 @@ package net.itsthesky.disky.elements.events.rework;
 import ch.njol.skript.util.Date;
 import ch.njol.skript.util.Timespan;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.ChannelFlag;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.forums.ForumTag;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
+import net.dv8tion.jda.api.events.channel.VoiceChannelEffectSendEvent;
 import net.dv8tion.jda.api.events.channel.update.*;
 import net.itsthesky.disky.api.emojis.Emote;
 import net.itsthesky.disky.api.events.rework.EventCategory;
@@ -42,6 +44,29 @@ public class ChannelEvents {
                 .value(Guild.class, ChannelDeleteEvent::getGuild)
                 .channelValues(ChannelDeleteEvent::getChannel)
                 .author(ChannelDeleteEvent::getGuild)
+                .register();
+
+        // Voice Channel Effect Send Event
+        EventRegistryFactory.builder(VoiceChannelEffectSendEvent.class)
+                .name("Voice Channel Effect Send Event")
+                .patterns("[discord] voice channel effect send")
+                .description("Fired when a voice channel effect is sent in a voice channel.",
+                        "This covers both emoji effects (an emoji 'bubble' in voice) and soundboard sound effects.",
+                        "Use `event-number` to get the volume the effect was played at - this is greater than 0 for soundboard sounds and 0 for plain emoji effects, so it is the most reliable way to tell the two apart.",
+                        "Use `event-emote` to get the emoji of the effect (present for both emoji and soundboard effects, may not be set).",
+                        "Use `event-boolean` to check whether the effect carried a soundboard sound. Note this relies on the sound being cached - it may be false for uncached or default sounds even when one was played, so prefer `event-number` as the discriminator.",
+                        "",
+                        "!!! warning \"This event requires the `GUILD_VOICE_STATES` intent to be enabled.\"",
+                        "",
+                        "!!! warning \"The bot only receives this event for voice channels it is **currently connected to**. Discord only dispatches voice channel effects to participants of the call - a bot observing the guild from outside the channel will NOT receive them. Connect the bot to the channel first (see the `Connect / Disconnect Bot` effect).\"")
+                .example("# The bot must be connected to the channel to receive effects:\nconnect bot \"my-bot\" to voice channel with id \"000\"\n\non voice channel effect send:\n    if event-number is greater than 0:\n        broadcast \"%event-member% used a soundboard sound in %event-channel%\"\n    else:\n        broadcast \"%event-member% sent an emoji effect in %event-channel%\"")
+                .value(Guild.class, VoiceChannelEffectSendEvent::getGuild)
+                .value(Member.class, event -> event.getEffect().getMember())
+                .value(Emote.class, event -> Emote.fromUnion(event.getEffect().getEmoji()))
+                .value(Number.class, event -> event.getEffect().getSoundVolume())
+                .value(Boolean.class, event -> event.getEffect().getSoundboardSound() != null)
+                .channelValues(VoiceChannelEffectSendEvent::getVoiceChannel)
+                .author(VoiceChannelEffectSendEvent::getGuild)
                 .register();
 
         // Channel Update Name Event

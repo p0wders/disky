@@ -171,6 +171,11 @@ public class Types {
                         GetAudioChannel.class)
                 .eventExpression().register();
 
+        new DiSkyType<>(SoundboardSound.class, "soundboardsound",
+                SoundboardSound::getName,
+                null
+        ).eventExpression().register();
+
         new DiSkyType<>(ThreadChannel.class, "threadchannel",
                 Channel::getName,
                 input -> DiSky.getManager().searchIfAnyPresent(bot -> bot.getInstance().getThreadChannelById(input)))
