@@ -38,6 +38,7 @@ import net.itsthesky.disky.elements.properties.polls.PollAnswerData;
 import net.itsthesky.disky.elements.sections.EmbedSection;
 import net.itsthesky.disky.elements.sections.ReactSection;
 import net.itsthesky.disky.elements.sections.automod.FilterType;
+import net.itsthesky.disky.elements.getters.MarkdownFormat;
 import net.itsthesky.disky.elements.sections.message.CreateMessage;
 import net.itsthesky.disky.managers.ConfigManager;
 import net.itsthesky.disky.managers.wrappers.AutoModRuleBuilder;
@@ -572,6 +573,11 @@ public class Types {
                 AutoModRuleBuilder::toString,
                 null).eventExpression().register();
         DiSkyType.fromEnum(FilterType.class, "filtertype", "filtertype")
+                .eventExpression().register();
+        DiSkyType.fromEnum(MarkdownFormat.class, "markdownformat", "markdownformat")
+                .documentation("Markdown Format",
+                        "Represents a Discord markdown region (bold, italics, spoiler, code block, etc.). "
+                                + "Used to keep specific formatting when stripping or escaping markdown.")
                 .eventExpression().register();
     }
 }
